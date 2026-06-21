@@ -68,7 +68,7 @@ export function Header() {
               WhatsApp
             </a>
           </Button>
-          <Button asChild size="sm">
+          <Button asChild size="sm" variant="accent">
             <Link href="/book">
               <CalendarHeart />
               Book Consultation
@@ -111,7 +111,7 @@ export function Header() {
                 WhatsApp us
               </a>
             </Button>
-            <Button asChild>
+            <Button asChild variant="accent">
               <Link href="/book">
                 <CalendarHeart />
                 Book Consultation

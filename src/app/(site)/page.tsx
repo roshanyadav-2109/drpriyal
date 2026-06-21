@@ -46,7 +46,7 @@ export default function HomePage() {
             </Reveal>
             <Reveal delay={0.18}>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Button asChild size="lg">
+                <Button asChild size="lg" variant="accent">
                   <Link href="/book">
                     <CalendarHeart />
                     Book a Consultation
@@ -364,7 +364,7 @@ export default function HomePage() {
               Book a private consultation with Dr. Priyal — no account, no waiting room, no judgement.
             </p>
             <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <Button asChild size="lg">
+              <Button asChild size="lg" variant="accent">
                 <Link href="/book">
                   <CalendarHeart /> Book Consultation
                 </Link>

@@ -7,36 +7,36 @@
 */
 
 :root {
-  /* Surfaces — clean clinical white + light blue bands (Apollo-style) */
+  /* Surfaces — clean white + light cyan bands (Deep Apollo Teal) */
   --ivory: #ffffff; /* page canvas */
-  --bone: #eef5f9; /* light blue section band */
-  --sand: #dae5ec; /* borders / dividers */
+  --bone: #eef6f7; /* light cyan section band */
+  --sand: #d3e4e8; /* borders / dividers */
   --paper: #ffffff; /* cards */
 
   /* Ink */
-  --ink: #10303d; /* dark teal-slate text */
-  --ink-soft: #4c6675; /* secondary text */
-  --ink-faint: #84a0ad; /* muted / captions */
+  --ink: #06323d; /* deep teal text */
+  --ink-soft: #436169; /* secondary text */
+  --ink-faint: #7fa1a8; /* muted / captions */
 
-  /* Brand — medical teal/blue */
-  --pine: #0b7c98; /* primary */
-  --pine-deep: #055d75; /* primary hover / CTA */
-  --pine-ink: #04323f; /* darkest, dark sections */
-  --sage: #4f9cb2; /* secondary accent */
-  --sage-soft: #bfdfea; /* light fills */
-  --sage-mist: #e6f2f7; /* faint section tint / icon tiles */
+  /* Brand — deep Apollo teal + bright cyan */
+  --pine: #02475b; /* primary (deep teal) */
+  --pine-deep: #013543; /* primary hover */
+  --pine-ink: #022b37; /* darkest, dark sections */
+  --sage: #00a3b4; /* bright cyan accent */
+  --sage-soft: #a6dfe6; /* light fills */
+  --sage-mist: #e3f4f6; /* faint section tint / icon tiles */
 
   /* Accents */
-  --gold: #9fc0cd; /* fine hairlines (steel) */
-  --gold-soft: #cde0e9;
-  --clay: #e07a32; /* warm orange accent, used sparingly */
-  --blush: #e1eef4; /* light teal fill */
+  --gold: #8fb9c2; /* fine hairlines (steel-teal) */
+  --gold-soft: #bfe1e7;
+  --clay: #ef7d10; /* Apollo orange — CTAs & accents */
+  --blush: #ffe8cf; /* soft warm fill */
 
   /* Tracker semantics */
   --period: #d76a5e;
-  --fertile: #2f9e8f;
-  --ovulation: #e0a23a;
-  --pms: #6b8fae;
+  --fertile: #16a085;
+  --ovulation: #ef7d10;
+  --pms: #5a8fae;
 
   /* Feedback */
   --success: #4f7d5e;
