@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { Mail, Phone, MapPin, MessageCircle } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
 import { LogoMark } from "./logo";
 import { LotusLine } from "@/components/decor/motifs";
+import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { site, services, legalLinks } from "@/lib/site";
 
 export function Footer() {
@@ -69,7 +70,7 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="flex items-start gap-2.5 text-sm text-ink-soft hover:text-pine"
               >
-                <MessageCircle className="mt-0.5 size-4 shrink-0 text-pine" />
+                <WhatsAppIcon className="mt-0.5 size-4 shrink-0 text-[#25D366]" />
                 WhatsApp us
               </a>
             </li>

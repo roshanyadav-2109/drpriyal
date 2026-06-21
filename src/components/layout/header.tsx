@@ -3,9 +3,10 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, CalendarHeart, MessageCircle } from "lucide-react";
+import { Menu, X, CalendarHeart } from "lucide-react";
 import { Logo } from "./logo";
 import { Button } from "@/components/ui/button";
+import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { primaryNav, site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -63,7 +64,7 @@ export function Header() {
         <div className="hidden items-center gap-2 lg:flex">
           <Button asChild variant="ghost" size="sm">
             <a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener noreferrer">
-              <MessageCircle />
+              <WhatsAppIcon className="text-[#25D366]" />
               WhatsApp
             </a>
           </Button>
@@ -106,7 +107,7 @@ export function Header() {
           <div className="mt-3 flex flex-col gap-2">
             <Button asChild variant="outline">
               <a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener noreferrer">
-                <MessageCircle />
+                <WhatsAppIcon className="text-[#25D366]" />
                 WhatsApp us
               </a>
             </Button>
