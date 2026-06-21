@@ -1,36 +1,169 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Dr. Priyal Agarwal — Women's Health Platform
 
-## Getting Started
+An all-in-one women's health website for **Dr. Priyal Agarwal**: online consultations,
+period & pregnancy trackers, a due-date calculator, an SEO blog, and a doctor/admin back-office.
 
-First, run the development server:
+Built with **Next.js 16 (App Router) · React 19 · TypeScript · Tailwind v4 · Framer Motion**,
+backed by **Supabase** (Postgres + Auth + Storage + RLS) and designed for **India**
+(UPI/Razorpay, WhatsApp, Hindi/English).
+
+> **Design language:** "Cool Clinical Modern" — warm ivory canvas, pine/sage palette,
+> Fraunces serif headlines, Inter body, gold hairlines, and subtle medical wave/lotus motifs.
+
+---
+
+## ⚠️ FIRST: rotate your leaked token
+
+A Supabase **Personal Access Token** (`sbp_…`) was shared in chat. That token can manage your
+whole Supabase org. **Revoke it now** and create a fresh one:
+
+1. Supabase Dashboard → **Account** → **Access Tokens** → revoke the exposed token.
+2. This app **never needs** that management token. It only uses the project's **anon** key
+   (public, safe) and the **service_role** key (server-only secret).
+
+---
+
+## Quick start
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local   # then fill in the values (see below)
+npm run dev                  # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The site **works immediately without any keys**:
+- Trackers run locally on-device (no account, fully private).
+- Booking falls back to a WhatsApp request flow when Razorpay isn't configured.
+- The admin area is reachable at `/admin` (passcode below).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Add keys to enable live payments, video, and the database-backed CMS.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Environment variables
 
-To learn more about Next.js, take a look at the following resources:
+Copy `.env.example` → `.env.local`. Key ones:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Variable | Where to get it | Exposed to browser? |
+|---|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase → Project Settings → API | ✅ public |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase → Project Settings → API → `anon` | ✅ public (RLS-guarded) |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase → Project Settings → API → `service_role` | ⛔ **server only** |
+| `NEXT_PUBLIC_RAZORPAY_KEY_ID` | Razorpay dashboard | ✅ public |
+| `RAZORPAY_KEY_SECRET` | Razorpay dashboard | ⛔ server only |
+| `RAZORPAY_WEBHOOK_SECRET` | Razorpay → Webhooks | ⛔ server only |
+| `HMS_ACCESS_KEY` / `HMS_SECRET` / `HMS_TEMPLATE_ID` | 100ms dashboard | ⛔ server only |
+| `RESEND_API_KEY` | Resend | ⛔ server only |
+| `MSG91_AUTH_KEY` / `WHATSAPP_TOKEN` / `WHATSAPP_PHONE_ID` | provider | ⛔ server only |
+| `ADMIN_PASSCODE` | you choose | ⛔ server only (default `priyal-admin`) |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Golden rule:** anything `NEXT_PUBLIC_*` ships to the browser. Server secrets must NOT have that prefix.
 
-## Deploy on Vercel
+The project URL is already pre-filled in `.env.local`:
+`https://baujdadxiaeyhcpkbvhu.supabase.co`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Connect Supabase
+
+1. Paste your **anon** and **service_role** keys into `.env.local`.
+2. Run the SQL migrations in `supabase/migrations/` (in order):
+   - `0001_init.sql` — tables, enums, RLS policies, helper functions, storage buckets, triggers.
+   - `0002_seed.sql` — services, blog categories, FAQs.
+   Run them via the Supabase **SQL Editor** (paste & run), or with the CLI:
+   ```bash
+   npx supabase link --project-ref baujdadxiaeyhcpkbvhu
+   npx supabase db push
+   ```
+3. (Optional) Generate types: `npx supabase gen types typescript --linked > src/lib/database.types.ts`
+
+Once connected, `/admin` switches from seeded sample content to live data, and the
+`/admin/settings` page shows a green check for each configured integration.
+
+---
+
+## Project structure
+
+```
+src/
+  app/
+    (site)/            # public site (shared header/footer/WhatsApp FAB)
+      page.tsx         # homepage
+      about, services, services/[slug]
+      tools/           # period-tracker, pregnancy-tracker, due-date-calculator
+      blog, blog/[slug]
+      book/            # guest booking flow
+      my-health/       # local-first "my data" space (no login)
+      contact, faq, privacy, terms, refund-policy, disclaimer
+    admin/
+      login/           # passcode gate (no user accounts)
+      (dash)/          # back-office: overview, appointments, consultations,
+                       #   blog, reviews, faqs, settings
+    api/
+      razorpay/        # order, verify, webhook
+      video/token/     # 100ms join token
+    sitemap.ts, robots.ts
+  components/          # ui/, layout/, motion/, decor/, tools/, booking/, admin/
+  lib/
+    site.ts            # central content (verified facts only)
+    sample-content.ts  # seed blog/faq/testimonials
+    booking.ts         # slots, fees, refs
+    trackers/          # period + pregnancy logic, local storage, content
+    supabase/          # client, server, admin, status
+  proxy.ts             # admin route guard (Next 16 renamed middleware → proxy)
+supabase/migrations/   # SQL schema + seed
+```
+
+---
+
+## Key product decisions
+
+- **Auth-free for patients.** No sign-up. Trackers persist in `localStorage` (private by design);
+  bookings are guest-based and identified by a reference code. The DB schema still ships full,
+  privacy-first RLS so an optional patient portal can be enabled later.
+- **Verified facts only.** Copy reflects Dr. Agarwal's confirmed public profile (MBBS GMCH,
+  OB-GYN training at CMH Bengaluru, Founder of WomanHood). No fabricated seniority, sub-specialties,
+  or patient counts. Update `src/lib/site.ts` with her confirmed bio, clinic, phone, email, and fees.
+- **Testimonials are placeholders.** Replace with real, consented reviews before launch
+  (`src/lib/sample-content.ts`, or via `/admin/reviews` once the DB is connected).
+
+---
+
+## Compliance (India)
+
+The site is structured around **DPDP Act 2023** and the **Telemedicine Practice Guidelines 2020**:
+consent capture, data-export/erasure (in *My Health*), audit logging (schema), medical disclaimers,
+and emergency guidance. Legal pages are starter templates — **have them reviewed by Indian
+healthcare-law counsel before going live.**
+
+---
+
+## Deploy (Vercel + Supabase)
+
+1. Push this repo to GitHub.
+2. Import into **Vercel**. Set all env vars (production) in Vercel → Project → Settings → Environment Variables.
+3. Use the Supabase **Mumbai (ap-south-1)** region for latency + data residency.
+4. Set `NEXT_PUBLIC_SITE_URL` to your production domain.
+5. Configure the **Razorpay webhook** to `https://YOUR_DOMAIN/api/razorpay/webhook` with `RAZORPAY_WEBHOOK_SECRET`.
+6. Add a real doctor photo at `public/doctor-portrait.jpg` and pass `src="/doctor-portrait.jpg"`
+   to `<DoctorPortrait />` in `src/app/(site)/page.tsx` and `about/page.tsx`.
+
+```bash
+npm run build   # production build
+npm run start   # serve the build locally
+npm run lint    # eslint
+```
+
+---
+
+## Before launch — checklist
+
+- [ ] Rotate the leaked `sbp_…` Supabase token.
+- [ ] Fill `src/lib/site.ts`: real phone, email, WhatsApp number, clinic address, fees.
+- [ ] Confirm Dr. Agarwal's bio/credentials/services; update copy where needed.
+- [ ] Replace placeholder testimonials with consented real ones.
+- [ ] Add the doctor's real portrait + an OG share image.
+- [ ] Run migrations; verify `/admin/settings` shows green checks.
+- [ ] Wire Razorpay (live keys + webhook) and 100ms for video consults.
+- [ ] Set a strong `ADMIN_PASSCODE`.
+- [ ] Legal review of Privacy / Terms / Refund / Disclaimer.

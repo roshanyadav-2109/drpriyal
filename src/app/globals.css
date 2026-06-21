@@ -1,26 +1,317 @@
 @import "tailwindcss";
 
+/*
+  Dr. Priyal Agarwal — Women's Health
+  Design language: "Cool Clinical Modern"
+  Warm ivory canvas · pine/sage palette · Fraunces serif · gold hairlines · wave motifs
+*/
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Surfaces — clean clinical white + light blue bands (Apollo-style) */
+  --ivory: #ffffff; /* page canvas */
+  --bone: #eef5f9; /* light blue section band */
+  --sand: #dae5ec; /* borders / dividers */
+  --paper: #ffffff; /* cards */
+
+  /* Ink */
+  --ink: #10303d; /* dark teal-slate text */
+  --ink-soft: #4c6675; /* secondary text */
+  --ink-faint: #84a0ad; /* muted / captions */
+
+  /* Brand — medical teal/blue */
+  --pine: #0b7c98; /* primary */
+  --pine-deep: #055d75; /* primary hover / CTA */
+  --pine-ink: #04323f; /* darkest, dark sections */
+  --sage: #4f9cb2; /* secondary accent */
+  --sage-soft: #bfdfea; /* light fills */
+  --sage-mist: #e6f2f7; /* faint section tint / icon tiles */
+
+  /* Accents */
+  --gold: #9fc0cd; /* fine hairlines (steel) */
+  --gold-soft: #cde0e9;
+  --clay: #e07a32; /* warm orange accent, used sparingly */
+  --blush: #e1eef4; /* light teal fill */
+
+  /* Tracker semantics */
+  --period: #d76a5e;
+  --fertile: #2f9e8f;
+  --ovulation: #e0a23a;
+  --pms: #6b8fae;
+
+  /* Feedback */
+  --success: #4f7d5e;
+  --warning: #c08a3e;
+  --danger: #b1564b;
+
+  /* Subtle, clinical corners — premium hospital sites use slight rounding, not pills */
+  --radius: 0.5rem;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-ivory: var(--ivory);
+  --color-bone: var(--bone);
+  --color-sand: var(--sand);
+  --color-paper: var(--paper);
+
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+
+  --color-pine: var(--pine);
+  --color-pine-deep: var(--pine-deep);
+  --color-pine-ink: var(--pine-ink);
+  --color-sage: var(--sage);
+  --color-sage-soft: var(--sage-soft);
+  --color-sage-mist: var(--sage-mist);
+
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-clay: var(--clay);
+  --color-blush: var(--blush);
+
+  --color-period: var(--period);
+  --color-fertile: var(--fertile);
+  --color-ovulation: var(--ovulation);
+  --color-pms: var(--pms);
+
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+
+  --color-background: var(--ivory);
+  --color-foreground: var(--ink);
+
+  /* Single type family: Inter for everything (headings + body). */
+  --font-serif: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-deva: var(--font-mukta), var(--font-inter), sans-serif;
+
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  --radius-xl: 8px;
+  --radius-2xl: 10px;
+
+  --shadow-soft: 0 1px 2px rgba(35, 40, 42, 0.04), 0 8px 24px -12px rgba(35, 40, 42, 0.12);
+  --shadow-card: 0 1px 3px rgba(35, 40, 42, 0.05), 0 18px 40px -24px rgba(35, 40, 42, 0.18);
+  --shadow-lift: 0 2px 6px rgba(35, 40, 42, 0.06), 0 30px 60px -30px rgba(35, 40, 42, 0.25);
+
+  --animate-accordion-down: accordion-down 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-accordion-up: accordion-up 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-draw: draw 1.6s ease forwards;
+  --animate-float: float 7s ease-in-out infinite;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes accordion-down {
+  from { height: 0; opacity: 0; }
+  to { height: var(--radix-accordion-content-height); opacity: 1; }
+}
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height); opacity: 1; }
+  to { height: 0; opacity: 0; }
+}
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@layer base {
+  * {
+    border-color: var(--sand);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--ivory);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem; /* 17px */
+    line-height: 1.65;
+    font-feature-settings: "kern", "liga", "calt";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4, h5 {
+    font-family: var(--font-sans);
+    font-weight: 650;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background: var(--pine);
+    color: var(--ivory);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--pine);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Devanagari rendering when lang switches to Hindi */
+  :lang(hi) {
+    font-family: var(--font-deva);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  /* Editorial eyebrow / micro-label */
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--pine);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 1.6rem;
+    height: 1px;
+    background: var(--gold);
+    display: inline-block;
+  }
+  .eyebrow--center::before { display: none; }
+
+  /* Fine gold hairline divider */
+  .hairline {
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(to right, transparent, var(--gold-soft), transparent);
+    border: 0;
+  }
+
+  /* Big editorial display numerals */
+  .stat-num {
+    font-family: var(--font-sans);
+    font-weight: 680;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: var(--pine);
+  }
+
+  /* Layout container */
+  .container-px {
+    width: 100%;
+    margin-inline: auto;
+    max-width: 80rem;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .container-px { padding-inline: 2.5rem; }
+  }
+  @media (min-width: 1280px) {
+    .container-px { padding-inline: 3.5rem; }
+  }
+
+  .container-narrow {
+    width: 100%;
+    margin-inline: auto;
+    max-width: 46rem;
+  }
+
+  /* Long-form document/article typography */
+  .prose-doc {
+    color: var(--ink-soft);
+    font-size: 1.0625rem;
+    line-height: 1.75;
+  }
+  .prose-doc > * + * { margin-top: 1.15rem; }
+  .prose-doc h2 {
+    font-family: var(--font-serif);
+    font-size: 1.6rem;
+    color: var(--ink);
+    margin-top: 2.5rem;
+    margin-bottom: 0.25rem;
+  }
+  .prose-doc h3 {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    color: var(--ink);
+    margin-top: 1.75rem;
+  }
+  .prose-doc a {
+    color: var(--pine);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .prose-doc strong { color: var(--ink); font-weight: 600; }
+  .prose-doc ul { list-style: none; padding-left: 0; }
+  .prose-doc ul > li {
+    position: relative;
+    padding-left: 1.6rem;
+    margin-top: 0.6rem;
+  }
+  .prose-doc ul > li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.7rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 9999px;
+    background: var(--sage);
+  }
+  .prose-doc blockquote {
+    border-left: 2px solid var(--gold);
+    padding-left: 1.25rem;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.3rem;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+}
+
+@layer utilities {
+  /* Subtle paper grain to avoid flat "AI gradient" look */
+  .grain {
+    position: relative;
+  }
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.4;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  }
+
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+
+  /* Underline that draws on hover for editorial links */
+  .link-underline {
+    background-image: linear-gradient(var(--gold), var(--gold));
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 1px;
+    transition: background-size 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .link-underline:hover { background-size: 100% 1px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
